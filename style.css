@@ -1,0 +1,35 @@
+body {
+    background-color: #a3baddcb;
+}
+
+.header{
+    text-align: center;
+}
+.pizzas{
+    display: flex;
+
+}
+.f2{
+    text-align: justify;
+}
+.cart-box{
+background-color: gray;
+}
+.small_pizza{
+    background-color:#05ffb4;
+    margin: 2em;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+.medium_pizza{
+    background-color: #429792;
+    margin: 2em;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+.large_pizza{
+    background-color: #02964ccb;
+    margin: 2em;
+    padding: 1em;
+    border-radius: 0.5em;
+}

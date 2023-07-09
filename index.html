@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><Buying Pizza Online Using AlpineJS></title>
+<link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/alpinejs" defer></script>
+</head>
+
+<body>
+
+    <div class="container" x-data="{ 
+        showCart: false,
+        smallpizzaTotal : 0,
+        mediumpizzaTotal : 0, 
+        largepizzaTotal : 0, 
+        cartTotal() {
+           return this.smallpizzaTotal + this.mediumpizzaTotal + this.largepizzaTotal
+        }, 
+        smallpizzaQty : 0, 
+        mediumpizzaQty : 0, 
+        largepizzaQty: 0, 
+        cartQty () {
+           return this.smallpizzaQty + this.mediumpizzaQty + this.largepizzaQty
+        },
+   
+        buySmallpizza () {
+           this.smallpizzaTotal += 40.00; 
+           this.smallpizzaQty+=1
+        },
+        clearSmallpizza () {
+           if (this.smallpizzaQty > 0) {
+               this.smallpizzaTotal -= 40.00; 
+               this.smallpizzaQty-=1
+           }
+        },
+   
+        buyMediumpizza () {
+           this.mediumpizzaTotal += 80.00; 
+           this.mediumpizzaQty+=1
+        },
+        clearMediumpizza () {
+           if (this.mediumpizzaQty > 0) {
+               this.mediumpizzaTotal -= 80.00; 
+               this.mediumpizzaQty-=1
+           }
+        },
+   
+        buyLargepizza () {
+           this.largepizzaTotal += 140.00; 
+           this.largepizzaQty+=1
+        },
+        clearLargepizza () {
+           if (this.largepizzaQty > 0) {
+               this.largepizzaTotal -= 140.00; 
+               this.largepizzaQty-=1
+           }
+        },
+   
+        payNow: false,
+        paymentAmount: 0,
+        paymentMessage: '',
+        makePayment() {
+           if (this.paymentAmount === 0) {this.paymentMessage = 'No amount entered!'}
+   
+           if ( this.paymentAmount >= this.cartTotal() ) {this.paymentMessage = 'Payment Successful!'
+           
+               setTimeout (() => {
+                   this.payNow = false;
+                   this.clearCart();
+                   this.showCart = false
+               }, 3000);}
+           else {
+               this.paymentMessage = 'Payment Failed!'
+           }
+       },
+       clearCart() {
+           this.smallpizzaTotal = 0;
+           this.mediumpizzaTotal = 0; 
+           this.largepizzaTotal = 0;
+           this.smallpizzaQty = 0;
+           this.mediumpizzaQty = 0; 
+           this.largepizzaQty = 0;
+       },
+       }">
+       <div class="header">
+            <div class="f1">
+            
+            
+            
+                <h1>Tumagole's Perfect Pizza</h1>
+            <h2>Best pizza with great value</h2>
+            <img src="images/Pizza 1.jpeg" width="100">
+        
+            <div><small>Get your pizza hot and deleivered to your door step Or order and collect in store skip the queue.</small></div>
+        </div>
+        
+        <div class="f2">
+                <button x-show="!showCart" x-on:click="showCart=true"><img src="download (5).png" width="20">cart</button>
+
+                <strong x-show="cartQty() > 0"><span x-text="cartQty()"></span> item(s)</strong>
+        </div>
+    </div>
+    
+    <div class="cart-box">
+        <div class="cart" x-show="showCart">
+            <div>
+                <button x-on:click="showCart=false">
+                    <img src="images/Cart pic.jpeg" width="20">
+                    Close
+                    </button>
+            </div>
+            <div class="">
+                <h2>Cart3
+                    <img src="download (5).png" width="20">
+                </h2>
+            </div>
+    
+            <table>
+                <tr x-show="smallpizzaQty > 0">
+                    <td>Small pizza</td>
+                    <td>
+                        <button x-on:click="buySmallpizza">+</button>
+                        <button x-on:click="clearSmallpizza" x-show="smallpizzaQty > 0">-</button>
+                    </td>
+                    <td x-text="smallpizzaQty"></td>
+                    <td>R<span x-text="smallpizzaTotal.toFixed(2)"></span></td>
+                </tr>
+                <tr x-show="mediumpizzaQty > 0">
+                    <td>Medium pizza</td>
+                    <td>
+                        <button x-on:click="buyMediumpizza">+</button>
+                        <button x-on:click="clearMediumpizza" x-show="mediumpizzaQty > 0">-</button>
+                    </td>
+                    <td x-text="mediumpizzaQty"></td>
+                    <td>R<span x-text="mediumpizzaTotal.toFixed(2)"></span></td>
+                </tr>
+                <tr x-show="largepizzaQty > 0">
+                    <td>Large pizza</td>
+                    <td>
+                        <button x-on:click="buyLargepizza">+</button>
+                        <button x-on:click="clearLargepizza" x-show="largepizzaQty > 0">-</button>
+                    </td>
+                    <td x-text="largepizzaQty"></td>
+                    <td>R<span x-text="largepizzaTotal.toFixed(2)"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="3">Total</td>
+                    <td>
+                        R<span x-text="cartTotal().toFixed(2)"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <div x-show="payNow">
+                            <div class="message" x-text="paymentMessage"></div>
+                            <div>
+                            <label for="">Payment amount</label>
+                            <input class="input" type="number" placeholder="Payment amount" x-model="paymentAmount">
+                            <button class="btn" x-on:click="makePayment"><img src="download (5).png" width="20">Payment</button>
+                            </div>
+                        </div>
+                    </td>
+    
+                    <td>
+                        <button x-show="!payNow" x-on:click="payNow = true" class="btn"><img src="download (5).png" width="20">Payment</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div> 
+     
+
+ <h1>Perfect Pizza</h1> 
+
+ <div class="pizzas" >
+
+    <div class="pizza small_pizza" >
+        <h2>Small Pizza</h2>
+       <img src="images/Pizza 2.jpeg">
+        <h3>R40</h3>
+        <button class="buy button" x-on:click="buySmallpizza">
+        Buy</button>
+        <div>
+            Creamy Tikka Veg, Cream cheese base, mush room diced, diced tomato,
+            Tikka sauce, BBQ Bacon, BBQ Sauce, Pepperoni and Olive, Spicy Chicken,
+            Mexican Sauce. Add more cheese!!
+        </div>  
+    </div>
+     
+     <div class="pizza medium_pizza" >
+        <h2>Medium Pizza</h2>
+        <img src="images/Pizza 3.jpeg">
+        <h3>R80</h3>
+        <button class="buy button" x-on:click="buyMediumpizza">
+        Buy</button>
+        <div>
+            Three Layers, three cheeses & a crust crammed with two chicken cheese grillers: our secret cream cheese, chicken, mushroom, diced tomato, onion, tomato & herb pizza sauce, Debanairs sauce, cheddar & mozzarella cheese.
+        </div>
+     </div>
+     
+    <div class="pizza large_pizza" >
+        <h2>Large Pizza</h2>
+        <img src="images/Pizza 4.jpeg">
+        <h3>R140</h3>
+        <button class="buy button" x-on:click="buyLargepizza">
+        Buy</button>
+        <div>
+        Large pizza BBQ BACON/MACON OR CREAMY CHICKEN, Creamy white sauce-based Margherita with steak or roast chicken strips, BBQ and chutney sauce, red onions, mushrooms & Cheddar. Garlic or herb base, mozzarella, Danish feta
+        </div>
+    </div>
+    
+ </div>
+
+
+
+ 
+<div class="pizza contact_details">
+    <h2>Contact Us @:</h2>
+    Call: 011 340 4321 Email: info@Tpizza.co.za
+</div>
+
+
+
+</body>
+</html>
